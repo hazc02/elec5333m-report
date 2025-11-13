@@ -1,0 +1,30 @@
+\documentclass[10pt,a4paper]{report}
+
+% Include global settings
+\input{settings/packages}
+
+\begin{document}
+
+% Title and abstract
+\input{settings/titlepage}
+\pagenumbering{roman}
+\setcounter{page}{1}
+
+\cleardoublepage
+
+\pagenumbering{arabic}
+\setcounter{page}{1}
+
+% Main sections
+\input{sections/lab1}
+\input{sections/lab2}
+\input{sections/lab3}
+\input{sections/lab4}
+\input{sections/lab5}
+
+% Appendices
+\cleardoublepage
+\appendix
+\input{appendices/appendix}
+
+\end{document}

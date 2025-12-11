@@ -1,4 +1,307 @@
-\chapter[Lab 1]{}
-\label{chap:lab1}
+% Lab 1 content: Link Budget and Propagation
 
-Content coming soon.
+This laboratory introduces the fundamentals of link budgeting by examining how
+transmitted power, antenna gains and propagation conditions determine the
+strength of a received signal. By modelling a complete transmitter--channel--
+receiver chain in ADS, the exercise demonstrates how analytical predictions can
+be compared directly with simulated results, establishing a clear understanding
+of how frequency, distance and system parameters influence overall link
+performance. These concepts form the foundation for later laboratories, where
+distortion, filtering, noise and wider RF system behaviour are investigated.
+
+\vspace{2mm}
+
+The theoretical background draws on the Friis transmission relationship and the
+free--space path loss model, which describe how power decays with distance and
+frequency. Received power is obtained by combining transmitter power, antenna
+gains and propagation loss in decibel form. Antenna directivity is central,
+with higher frequency systems relying on significant antenna gain to counter
+increased path loss. Free--space propagation assumes an unobstructed
+line--of--sight link, providing a controlled baseline for analysis. ADS then
+allows this ideal behaviour to be compared against scenarios that include
+additional losses such as atmospheric absorption or building penetration.
+
+Before validating the system performance using ADS, each scenario was first
+evaluated using the link-budget equations provided in the Lab~1
+handbook~\cite{Lab1_handbook}. The received power is obtained using:
+\[
+P_r(dBm) = P_t(dBm) + G_t(dBi) + G_r(dBi)
+           + 20\log_{10}\!\left(\frac{\lambda}{4\pi R}\right),
+\]
+with antenna gains and parabolic reflector diameters calculated using:
+
+\[
+G_x(dBi) = 10\log_{10}\!\left(
+\eta\frac{\pi^2 d^2}{\lambda^2}
+\right).
+\]
+These expressions provide a baseline prediction for each wireless link prior to
+introducing simulation tools or additional channel impairments.
+
+\textbf{Exercise A: 700\,MHz Terrestrial Broadcast Link}\\
+For a carrier frequency of $700$\,MHz, the wavelength is:
+\[
+\lambda = \frac{c}{f} = \frac{3\times10^8}{700\times10^6} = 0.43\;\mathrm{m}.
+\]
+The transmit power of $5$\,kW corresponds to
+\[
+P_t = 10\log_{10}(5\times10^6) = 66.99\;\mathrm{dBm}.
+\]
+The free-space loss over $25$\,km is
+\[
+\mathrm{FSPL}
+= 20\log_{10}\!\left(\frac{0.43}{4\pi\cdot25\times10^3}\right)
+= -117.30\;\mathrm{dB}.
+\]
+The received power is therefore
+\[
+P_r = 66.99 + 3 + 10 - 117.30
+    = -37.31\;\mathrm{dBm}.
+\]
+
+\begin{figure}[H]
+  \centering
+  \begin{subfigure}[b]{0.46\textwidth}
+    \centering
+    \includegraphics[width=0.8\textwidth]{figures/Lab 1/Exercise A/SimCircuit.PNG}
+    \caption{ADS link-budget circuit for Lab~1 Exercise~A.}
+    \label{fig:lab1_exA_circuit}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[b]{0.46\textwidth}
+    \centering
+    \includegraphics[width=0.7\textwidth]{figures/Lab 1/Exercise A/SimResults.PNG}
+    \caption{Simulated received-power results for Lab~1 Exercise~A.}
+    \label{fig:lab1_exA_results}
+  \end{subfigure}
+  \caption{ADS schematic and simulation results for the Lab~1 link-budget scenario.}
+  \label{fig:lab1_circuit_and_sim}
+\end{figure}
+
+\textbf{Exercise B: 38\,GHz Backbone Link.}\\
+
+In this exercise, the objective is to determine the diameter of the transmit
+parabolic antenna required to achieve a received power of $-50$\,dBm. The
+carrier frequency is $38$\,GHz, giving a wavelength of
+\[
+\lambda = \frac{c}{f} =  \frac{3\times 10^8}{38\times10^9}
+        = 7.89\times 10^{-3}\;\mathrm{m}.
+\]
+
+The receiver uses a $15$\,cm dish with efficiency $\eta = 0.55$. Its gain is
+\[
+G_r
+= 10\log_{10}\!\left(
+\eta\frac{\pi^2 d_r^2}{\lambda^2}
+\right)
+= 10\log_{10}\!\left(
+0.55\frac{\pi^2 (0.15)^2}{(7.89\times10^{-3})^2}
+\right)
+= 32.92\;\mathrm{dBi}.
+\]
+
+The free--space loss over $R = 10$\,km is
+\[
+\mathrm{FSPL}
+= 20\log_{10}\!\left(\frac{\lambda}{4\pi R}\right)
+= -144.04\;\mathrm{dB}.
+\]
+
+Atmospheric absorption adds a further $10$\,dB attenuation. The system transmit
+power is $100$\,mW, corresponding to
+\[
+P_t = 10\log_{10}(100) = 20\;\mathrm{dBm}.
+\]
+
+The link budget expression becomes
+\[
+P_r = P_t + G_t + G_r + \mathrm{FSPL} - 10.
+\]
+
+Setting the target received power $P_r = -50$\,dBm and solving for $G_t$ gives
+\[
+-50
+= 20 + G_t + 32.92 - 144.04 - 10,
+\]
+\[
+-50 = -101.12 + G_t,
+\]
+\[
+G_t = 51.12\;\mathrm{dBi}.
+\]
+
+The corresponding transmit-antenna diameter follows from the parabolic reflector
+gain expression:
+\[
+G_t = 10\log_{10}\!\left(
+\eta\frac{\pi^2 d_t^2}{\lambda^2}
+\right),
+\]
+\[
+d_t
+= \lambda
+  \sqrt{
+  \frac{10^{G_t/10}}{\eta\pi^2}
+  }.
+\]
+
+Substituting $\eta = 0.55$, $\lambda = 7.89\times10^{-3}$\,m and
+$G_t = 51.12$\,dBi,
+\[
+d_t
+= 7.89\times10^{-3}
+  \sqrt{
+  \frac{10^{5.112}}{0.55\pi^2}
+  }
+  = 1.22\;\mathrm{m}.
+\]
+
+Thus, a transmit-antenna diameter of approximately \textbf{1.22\,m} is required
+to achieve a received power of $-50$\,dBm under the stated conditions.
+
+\begin{figure}[H]
+  \centering
+  \begin{subfigure}[b]{0.46\textwidth}
+    \centering
+    \includegraphics[width=0.8\textwidth]{figures/Lab 1/Exercise B/Circuit.PNG}
+    \caption{ADS circuit schematic for Lab~1 Exercise~B.}
+    \label{fig:lab1_exB_circuit}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[b]{0.46\textwidth}
+    \centering
+    \includegraphics[width=0.7\textwidth]{figures/Lab 1/Exercise B/Sim.PNG}
+    \caption{Simulation results for the 38\,GHz backbone link.}
+    \label{fig:lab1_exB_sim}
+  \end{subfigure}
+  \caption{ADS schematic and simulation results for the 38\,GHz backbone link
+  (Exercise~B). The simulated received power of $-50.04$\,dBm matches the
+  analytical prediction.}
+  \label{fig:lab1_exB_circuit_and_sim}
+\end{figure}
+
+Atmospheric attenuation varies with frequency due to absorption by oxygen and
+water vapour, producing alternating low–loss transmission windows and high–loss
+absorption bands (see Fig.~\ref{fig:atmospheric_attenuation}). The 38\,GHz
+region falls within a relatively favourable window, whereas frequencies near
+22\,GHz and 60\,GHz exhibit significantly greater loss. \cite{millimetre_microwave} The $10$\,dB attenuation
+term used in this exercise therefore represents a single point on a broader
+frequency–dependent profile and illustrates the importance of accounting for
+atmospheric absorption in long–distance link design.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.4\textwidth]{figures/atmospheric_absorbtion.svg}
+    \caption{Atmospheric attenuation vs frequency, showing absorption features
+    from oxygen and water vapour~\cite{atmospheric_attenuation}.}
+    \label{fig:atmospheric_attenuation}
+\end{figure}
+
+
+\textbf{Exercise C: 1.8\,GHz Cellular Link}\\[4pt]
+In exercise C, further attenuation factors such as fading margin and building
+penetration loss are introduced to the link budget. For a $1.8$\,GHz carrier:
+\[
+\lambda = \frac{3\times10^8}{1.8\times10^9}
+        = 0.167\;\mathrm{m}.
+\]
+
+The transmitter radiates $100$\,W, corresponding to
+\[
+P_t = 10\log_{10}(100\,\mathrm{W}/1\,\mathrm{mW})
+    = 10\log_{10}(10^5)
+    = 50\;\mathrm{dBm}.
+\]
+
+The free--space path loss over a $5$\,km link is
+\[
+\mathrm{FSPL}
+= 20\log_{10}\!\left(\frac{\lambda}{4\pi R}\right)
+= 20\log_{10}\!\left(
+\frac{0.167}{4\pi \cdot 5000}
+\right)
+= -111.53\;\mathrm{dB}.
+\]
+
+The transmitter antenna gain is $G_t = 6$\,dB and the receiver antenna gain is
+$G_r = 0$\,dB. Fading margin ($20$\,dB) and building penetration loss ($6$\,dB)
+combine to give a total additional attenuation of
+\[
+L_{\mathrm{extra}} = 20 + 6 = 26\;\mathrm{dB}.
+\]
+
+The received power is therefore
+\[
+P_r = P_t + G_t + G_r + \mathrm{FSPL} - L_{\mathrm{extra}},
+\]
+\[
+P_r = 50 + 6 + 0 - 111.53 - 26,
+\]
+\[
+P_r = -81.53\;\mathrm{dBm}.
+\]
+
+\begin{figure}[H]
+  \centering
+  \begin{subfigure}[b]{0.46\textwidth}
+    \centering
+    \includegraphics[width=0.8\textwidth]{figures/Lab 1/Exercise C/Circuit.PNG}
+    \caption{ADS circuit schematic for Exercise~C.}
+    \label{fig:lab1_exC_circuit}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[b]{0.46\textwidth}
+    \centering
+    \includegraphics[width=0.7\textwidth]{figures/Lab 1/Exercise C/Sim.PNG}
+    \caption{Simulation results for the 1.8\,GHz link.}
+    \label{fig:lab1_exC_sim}
+  \end{subfigure}
+  \caption{
+  ADS schematic and simulation results for the 1.8\,GHz cellular link
+  (Exercise~C). The simulated value of $P_r = -81.53$\,dBm matches the analytic
+  calculation.
+  }
+  \label{fig:lab1_exC_circuit_and_sim}
+\end{figure}
+
+\paragraph{Exercise D: GEO Satellite Downlink.}
+For a $12$\,GHz carrier,
+\[
+\lambda = \frac{3\times10^8}{12\times10^9} = 0.025\;\mathrm{m}.
+\]
+The spacecraft and ground-station dish gains follow from
+\[
+G = 10\log_{10}\!\left(
+0.6\frac{\pi^2 d^2}{\lambda^2}
+\right),
+\]
+using diameters of $2$\,m and $0.6$\,m respectively.  
+The free-space loss over $40{,}000$\,km is added along with atmospheric
+absorption ($2$\,dB), low-noise-amplifier gain ($30$\,dB) and mixer conversion
+loss ($10$\,dB):
+\[
+P_{IF} = P_t + G_t + G_r + \mathrm{FSPL}
+         - 2\;\mathrm{dB}
+         + 30\;\mathrm{dB}
+         - 10\;\mathrm{dB}.
+\]
+This predicts the IF power prior to validating the chain using ADS.
+
+\begin{figure}[H]
+  \centering
+  \begin{subfigure}[b]{0.46\textwidth}
+    \centering
+    \includegraphics[width=0.8\textwidth]{figures/Lab 1/Exercise D/Circuit.PNG}
+    \caption{ADS circuit schematic for Lab~1 Exercise~D.}
+    \label{fig:lab1_exD_circuit}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[b]{0.46\textwidth}
+    \centering
+    \includegraphics[width=0.7\textwidth]{figures/Lab 1/Exercise D/Sim.PNG}
+    \caption{Simulation results for the GEO satellite downlink.}
+    \label{fig:lab1_exD_sim}
+  \end{subfigure}
+  \caption{ADS schematic and simulation results for the GEO satellite downlink (Exercise~D).}
+  \label{fig:lab1_exD_circuit_and_sim}
+\end{figure}

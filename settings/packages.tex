@@ -1,4 +1,4 @@
-\usepackage[a4paper,margin=2.5cm]{geometry}
+\usepackage[a4paper,margin=2cm]{geometry}
 \usepackage{graphicx}
 \usepackage{xcolor}
 \usepackage{float}
@@ -20,7 +20,17 @@
 \usepackage{enumitem}
 \usepackage{tocloft}
 
-\onehalfspacing
+% More compact line spacing to help meet the 10-page limit
+\singlespacing
+
+% Paragraph layout: no first-line indent, small vertical gap
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.5em}
+
+% Use section-style numbering (1, 2, 3, ...) instead of chapter.section
+\renewcommand\thesection{\arabic{section}}
+\renewcommand\thesubsection{\thesection.\arabic{subsection}}
+\renewcommand\thesubsubsection{\thesubsection.\arabic{subsubsection}}
 
 % Document-wide numbering depth
 \setcounter{tocdepth}{2}
@@ -40,8 +50,11 @@
 \setlist[itemize]{topsep=4pt,itemsep=2pt,parsep=0pt}
 \setlist[enumerate]{topsep=4pt,itemsep=2pt,parsep=0pt}
 
-% Figure and table caption style
-\captionsetup{font=small,labelfont=bf}
+% Figure and table caption style and spacing
+\captionsetup{font=small,labelfont=bf,skip=4pt}
+\setlength{\textfloatsep}{8pt plus 2pt minus 4pt}
+\setlength{\floatsep}{8pt plus 2pt minus 4pt}
+\setlength{\intextsep}{8pt plus 2pt minus 4pt}
 
 % Chapter and section heading layout
 \titleformat{\chapter}[display]
@@ -53,10 +66,10 @@
 
 \newcolumntype{Y}{>{\raggedright\arraybackslash}X}
 
-\titleformat{\section}{\normalfont\large\bfseries\raggedright}{\thesection}{0.8em}{}
+\titleformat{\section}{\normalfont\normalsize\bfseries\raggedright}{\thesection}{0.8em}{}
 \titlespacing*{\section}{0pt}{12pt}{6pt}
 
-\titleformat{\subsection}{\normalfont\normalsize\bfseries\raggedright}{\thesubsection}{0.6em}{}
+\titleformat{\subsection}{\normalfont\small\bfseries\raggedright}{\thesubsection}{0.6em}{}
 \titlespacing*{\subsection}{0pt}{10pt}{4pt}
 
 % Header and footer styling

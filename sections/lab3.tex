@@ -1,2 +1,116 @@
 % Lab 3 content: Filter Behaviour
+\section{Filter Behaviour (Lab 3)}
+\label{sec:lab3}
+
+\subsection*{Exercise 1: Three--pole Chebyshev lowpass filter}
+
+A third--order Chebyshev lowpass filter was synthesised with
+\(F_p=1\)~GHz, \(F_s=3.2\)~GHz, \(A_p=0.1\)~dB and \(A_s=20\)~dB for a
+50~\(\Omega\) source/load. The initial lumped LC prototype was then transformed
+to an equivalent transmission--line network and finally to a microstrip
+implementation on the specified substrate. Fig.~\ref{fig:lab3_ex1_circuits}
+summarises each topology alongside its simulated response.
+
+\begin{figure}[H]
+  \centering
+  \begin{subfigure}[b]{0.4\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{figures/Lab 3/Exercise 1/LC_Filter.PNG}
+    \caption{LC prototype.}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[b]{0.59\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{figures/Lab 3/Exercise 1/LC_Filter_Sim.PNG}
+    \caption{LC response.}
+  \end{subfigure}
+
+  \vspace{0.6em}
+
+  \begin{subfigure}[b]{0.4\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{figures/Lab 3/Exercise 1/TRL_Circuit.PNG}
+    \caption{TLine transformation.}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[b]{0.59\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{figures/Lab 3/Exercise 1/TRL_Sim.PNG}
+    \caption{TLine response.}
+  \end{subfigure}
+
+  \vspace{0.6em}
+
+  \begin{subfigure}[b]{0.4\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{figures/Lab 3/Exercise 1/MS_Circuit.PNG}
+    \caption{Microstrip layout.}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[b]{0.59\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{figures/Lab 3/Exercise 1/MS_Sim.PNG}
+    \caption{Microstrip response.}
+  \end{subfigure}
+  \caption{Exercise~1 lowpass filter topologies and corresponding simulated
+  S-parameters.}
+  \label{fig:lab3_ex1_circuits}
+\end{figure}
+
+All three implementations meet the 0.1~dB passband ripple near 1~GHz and achieve
+at least 20~dB attenuation by 3.2~GHz. The TLine and microstrip versions show
+slightly increased loss and a small shift of the stopband edge due to
+distributed effects and substrate dispersion, but preserve the intended
+Chebyshev shape.
+
+\subsection*{Exercise 2: Microstrip Chebyshev bandpass filter}
+
+A microstrip Chebyshev bandpass filter was designed with
+\(F_0=12\)~GHz, \(\Delta f=1.3\)~GHz and 0.1~dB passband ripple, targeting
+30~dB rejection between 9 and 15~GHz. Fig.~\ref{fig:lab3_ex2_circuits} shows the
+ADS lumped prototype and the resulting microstrip realisation after substrate
+parameterisation.
+
+\begin{figure}[H]
+  \centering
+  \begin{subfigure}[b]{0.48\textwidth}
+    \centering
+    \includegraphics[width=0.85\textwidth]{figures/Lab 3/Exercise 2/LC_Filter_Circuit.PNG}
+    \caption{Lumped prototype.}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[b]{0.48\textwidth}
+    \centering
+    \includegraphics[width=0.85\textwidth]{figures/Lab 3/Exercise 2/MS_Filter_Circuit.PNG}
+    \caption{Microstrip realisation.}
+  \end{subfigure}
+  \caption{Bandpass filter circuits before and after microstrip conversion.}
+  \label{fig:lab3_ex2_circuits}
+\end{figure}
+
+The return loss and insertion loss of the microstrip bandpass filter are shown
+in Fig.~\ref{fig:lab3_ex2_sparams}. The passband is centred close to 12~GHz with
+approximately 1.3~GHz 3~dB bandwidth, and \(S_{11}\) remains below \(-16\)~dB
+through most of the passband, consistent with the 0.1~dB ripple specification.
+Outside the band, the response rolls off rapidly and exceeds 30~dB attenuation
+across the 9--15~GHz stop region.
+
+\begin{figure}[H]
+  \centering
+  \begin{subfigure}[b]{0.49\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{figures/Lab 3/Exercise 2/MS_Filter_S11.PNG}
+    \caption{Return loss \(S_{11}\).}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[b]{0.49\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{figures/Lab 3/Exercise 2/MS_Filter_S21.PNG}
+    \caption{Insertion loss \(S_{21}\).}
+  \end{subfigure}
+  \caption{Microstrip bandpass filter S-parameters.}
+  \label{fig:lab3_ex2_sparams}
+\end{figure}
+
+\FloatBarrier
 

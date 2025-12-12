@@ -1,2 +1,211 @@
-% Lab 2 content: Amplifier Linearity and Intermodulation
+\section{Amplifier Linearity and Intermodulation (Lab 2)}
+\label{sec:lab2}
 
+\subsection*{Exercise 2A: Second--order intermodulation products}
+
+A weakly nonlinear device may be written as 
+\( y = a_1x + a_2x^2 + a_3x^3 + \dots \).  
+For a two--tone input \( x = A(\cos\omega_1 t + \cos\omega_2 t) \), the
+\(a_2x^2\) term generates components at \(f_1 \pm f_2\). The fundamental power
+scales as \(A^2\) while IM2 power scales as \(A^4\), giving a 2:1 slope on a dB
+input–output plot.
+
+The IM2 extrapolation is \(P_{\mathrm{IM2}} = 2P_{\mathrm{in}} + C_2\).
+At the intercept point, \(IP2 = 2IP2 + C_2\), hence \(C_2 = -IP2\).  
+Expressing the IM2 level in terms of the fundamental output \(P_0\) gives
+\[
+P_{\mathrm{IM2}} = 2P_0 - IP2.
+\]
+
+\subsection*{Exercise 2B: Third--order intermodulation products}
+
+The cubic term produces the IM3 tones at \(2f_1 \pm f_2\) and \(2f_2 \pm f_1\).  
+Here the IM3 amplitude scales as \(A^3\), so IM3 power scales as \(A^6\),
+resulting in a 3:1 slope.
+
+Using \(P_{\mathrm{IM3}} = 3P_{\mathrm{in}} + C_3\) and the intercept condition
+\(IP3 = 3IP3 + C_3\) gives \(C_3 = -2IP3\).  
+Hence,
+\[
+P_{\mathrm{IM3}} = 3P_0 - 2IP3.
+\]
+
+\subsection*{Exercise 2C: Two--tone distortion analysis}
+
+Two tones at \(f_1 = 900\,\mathrm{MHz}\) and \(f_2 = 950\,\mathrm{MHz}\), each at
+\(-10\,\mathrm{dBm}\), drive an amplifier with  
+\(G=20\,\mathrm{dB}\), \(IP2 = 25\,\mathrm{dBm}\), \(IP3 = 30\,\mathrm{dBm}\).
+The fundamentals at the output are
+\[
+P_0 = -10 + 20 = 10~\mathrm{dBm}.
+\]
+
+\textit{Second--order products:}  
+Frequencies: \(f_2 - f_1 = 50\,\mathrm{MHz}\) and \(f_1 + f_2 = 1850\,\mathrm{MHz}\).  
+Power:
+\[
+P_{\mathrm{IM2}} = 2P_0 - IP2 = 20 - 25 = -5~\mathrm{dBm}.
+\]
+
+\textit{Third--order products:}  
+Frequencies: \(2f_1 - f_2 = 850\,\mathrm{MHz}\), \(2f_2 - f_1 = 1000\,\mathrm{MHz}\).  
+Power:
+\[
+P_{\mathrm{IM3}} = 3P_0 - 2IP3 = 30 - 60 = -30~\mathrm{dBm}.
+\]
+
+\begin{table}[H]
+\centering
+\small
+\begin{tabular}{l c c}
+\toprule
+Product & Frequency (MHz) & Power (dBm) \\
+\midrule
+Fundamentals & 900, 950 & 10 \\
+IM2 (diff / sum) & 50, 1850 & -5 \\
+Harmonics & 1800, 1900 & -11 \\
+IM3 (lower / upper) & 850, 1000 & -30 \\
+Higher IM3 & 2700--2850 & -30 to -39 \\
+\bottomrule
+\end{tabular}
+\caption{Calculated IM2 and IM3 distortion products.}
+\end{table}
+
+\paragraph{Comparison with ADS simulation.}
+The ADS spectrum shows IM2 tones at \(-5\,\mathrm{dBm}\) and IM3 tones clustered
+around \(-30\,\mathrm{dBm}\), matching theoretical predictions. Higher--frequency
+IM3 components appear weaker due to amplifier roll--off.
+
+\paragraph{Practical significance.}
+IM2 products generally fall far from the wanted band and can be filtered,
+whereas IM3 products lie close to the desired signals and therefore dominate
+linearity requirements, adjacent--channel interference and blocking behaviour.
+This is why IP3 is the primary figure of merit for RF amplifier linearity.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.9\textwidth]{figures/Lab 2/Exercise 1c/Pout.png}
+\caption{ADS output spectrum for the two--tone test, showing fundamental, IM2
+and IM3 components.}
+\label{fig:q1c_spectrum}
+\end{figure}
+
+\subsection*{Exercise B (Q2): LNA two--tone IM3 products}
+
+A low-noise amplifier (LNA) with gain \(G = 30\)~dB and input third--order
+intercept point \(IIP3 = +5\)~dBm is driven by two equal tones at
+\(f_1 = 1.9\)~GHz and \(f_2 = 2.1\)~GHz, each with input power
+\(P_{\mathrm{in}} = -10\)~dBm. The corresponding output intercept point is
+\[
+OIP3 = IIP3 + G = 5 + 30 = 35~\text{dBm}.
+\]
+The amplified fundamentals at the output are
+\[
+P_0 = P_{\mathrm{in}} + G = -10 + 30 = 20~\text{dBm}.
+\]
+
+\paragraph{IM3 frequencies.}
+Third--order intermodulation products occur at the near-band frequencies
+\[
+2f_1 - f_2 = 1.7~\text{GHz}, \qquad 2f_2 - f_1 = 2.3~\text{GHz},
+\]
+with additional high-frequency components at \(2f_1 + f_2 = 5.9\)~GHz and
+\(2f_2 + f_1 = 6.1\)~GHz.
+
+\paragraph{IM3 power levels.}
+Using the output-referred relation
+\[
+P_{\mathrm{IM3}} = 3P_0 - 2OIP3,
+\]
+gives
+\[
+P_{\mathrm{IM3}} = 3(20) - 2(35) = -10~\text{dBm}.
+\]
+Thus each IM3 product is predicted to appear at about \(-10\)~dBm at the LNA
+output.
+
+\paragraph{Comparison with ADS simulation.}
+The ADS spectrum in Fig.~\ref{fig:lab2_q2_sim} shows IM3 tones at 1.7 and
+2.3~GHz close to the predicted level, with any residual discrepancy attributable
+to device roll-off and filtering around the 100~MHz receiver bandwidth.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.6\textwidth]{figures/Lab 2/Exercise 2/SimResults.PNG}
+  \caption{ADS two--tone spectrum for Exercise~B (Q2).}
+  \label{fig:lab2_q2_sim}
+\end{figure}
+
+\subsection*{Exercise C (Q3): Cascaded receiver linearity}
+
+The receiver chain consists of an RF filter, amplifier (Amp1), mixer and IF
+filter. The gains, noise figures and IIP3 values are given in the table in the
+question. First, output intercept points are found using
+\(OIP3_i = IIP3_i + G_i\):
+\[
+\begin{array}{l c c}
+\text{Stage} & G_i~(\text{dB}) & OIP3_i~(\text{dBm}) \\ \hline
+\text{RF filter} & -1 & 98 \\
+\text{Amp1} & 20 & 10 \\
+\text{Mixer} & -6 & 0 \\
+\text{IF filter} & -1 & 98 \\
+\end{array}
+\]
+The corresponding linear gains are
+\[
+G_1 = 0.79,\quad G_2 = 100,\quad G_3 = 0.25,\quad G_4 = 0.79,
+\]
+giving a total gain of
+\[
+G_{\mathrm{tot}} = -1 + 20 - 6 - 1 = 12~\text{dB}.
+\]
+
+\paragraph{Cascaded OIP3.}
+Using the output-referred cascade formula
+\[
+\frac{1}{OIP3_{\mathrm{cas}}}
+= \frac{1}{G_2G_3G_4\,OIP3_1}
+ \frac{1}{G_3G_4\,OIP3_2}
+ \frac{1}{G_4\,OIP3_3}
+ \frac{1}{OIP3_4},
+\]
+with \(OIP3_1=OIP3_4\approx 6.31\times10^9\)~mW,
+\(OIP3_2=10\)~mW and \(OIP3_3=1\)~mW, yields
+\[
+OIP3_{\mathrm{cas}} \approx 0.564~\text{mW} \;\Rightarrow\;
+OIP3_{\mathrm{cas}} \approx -2.47~\text{dBm}.
+\]
+
+With two input tones at \(f_1 = 1.6\)~GHz and \(f_2 = 2.0\)~GHz, each at
+\(-45\)~dBm, the output fundamentals are
+\[
+P_0 = -45 + 12 = -33~\text{dBm}.
+\]
+The predicted IM3 level is therefore
+\[
+P_{\mathrm{IM3}}
+= 3P_0 - 2OIP3_{\mathrm{cas}}
+= 3(-33) - 2(-2.47)
+= -94.1~\text{dBm}.
+\]
+
+\paragraph{IM3 frequencies and practical significance.}
+The third--order products occur at
+\[
+2f_1 - f_2 = 1.2~\text{GHz}, \qquad 2f_2 - f_1 = 2.4~\text{GHz}.
+\]
+Although these fall outside the 1.6--2.0~GHz IF band and are attenuated by the
+IF filter, they indicate the receiver's sensitivity to strong adjacent tones.
+The cascaded OIP3 is dominated by the mixer and Amp1 stages, so improving either
+stage yields the largest system-level linearity benefit.
+
+\paragraph{Comparison with ADS simulation.}
+The ADS spectrum in Fig.~\ref{fig:lab2_q3_sim} shows IM3 products at the same
+frequencies and close to the predicted level, confirming the cascade model.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.6\textwidth]{figures/Lab 2/Exercise 3/SimResults.PNG}
+  \caption{ADS two--tone spectrum for Exercise~C (Q3).}
+  \label{fig:lab2_q3_sim}
+\end{figure}

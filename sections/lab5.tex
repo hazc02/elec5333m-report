@@ -1,2 +1,92 @@
 % Lab 5 content: Time-Domain Distortion and Antenna Performance
+\section{Time-Domain Distortion and Antenna Performance (Lab 5)}
+\label{sec:lab5}
 
+\subsection*{Exercise 1: Time-domain non-linear distortion}
+
+The common-emitter amplifier was analysed in DC/AC to establish its operating
+point and small-signal gain, then simulated in transient with a swept input
+amplitude. At low drive levels the output is sinusoidal and scales linearly with
+the input. As the input amplitude is increased, the transistor leaves its
+linear region and the output exhibits clipping/compression, as shown in
+Fig.~\ref{fig:lab5_ex1_waveforms}.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.8\textwidth]{figures/Lab 5/Exercise 1/SimResults.PNG}
+  \caption{Transient input (red) and output (blue) waveforms for increasing
+  input amplitude.}
+  \label{fig:lab5_ex1_waveforms}
+\end{figure}
+
+This distortion corresponds to the gain becoming signal-dependent. In the
+frequency domain a clipped sinusoid requires additional harmonic components to
+reconstruct the waveform, so harmonic balance would show rising harmonics and,
+for multi-tone inputs, intermodulation products. The onset of visible clipping
+therefore marks the practical linearity limit for the stage.
+
+\subsection*{Exercise 2: Rectangular microstrip patch antenna}
+
+Using the FR4 substrate parameters (\(\varepsilon_r=4.6\), \(h=1.6\)~mm) and a
+target resonance of \(f_r=2.4\)~GHz, the patch dimensions follow from the design
+equations:
+\[
+W=L=\frac{c}{2f_r\sqrt{\varepsilon_r}} \approx 29.14~\text{mm}, \qquad
+H=0.822\,\frac{L}{2} \approx 11.98~\text{mm},
+\]
+\[
+Y=\frac{W}{5}\approx 5.83~\text{mm}, \qquad
+X=Z=\frac{2W}{5}\approx 11.66~\text{mm}.
+\]
+The layout was implemented in ADS Momentum and simulated from 1–4~GHz.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.65\textwidth]{figures/Lab 5/Exercise 2/Antenna.PNG}
+  \caption{ADS layout of the 2.4~GHz rectangular patch antenna.}
+  \label{fig:lab5_ex2_layout}
+\end{figure}
+
+The simulated input match is shown in Fig.~\ref{fig:lab5_ex2_s11}. A clear
+resonance occurs close to 2.4~GHz where \(S_{11}\) dips below \(-20\)~dB,
+confirming good impedance matching at the design frequency.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.7\textwidth]{figures/Lab 5/Exercise 2/S11Results.PNG}
+  \caption{Simulated return loss \(S_{11}\) of the patch antenna.}
+  \label{fig:lab5_ex2_s11}
+\end{figure}
+
+Far-field results at 2.4~GHz are summarised in Fig.~\ref{fig:lab5_ex2_patterns}.
+The antenna radiates a broadside pattern with peak directivity of about
+6.3~dBi and realised gain around 4.9~dBi, corresponding to roughly 73\%
+efficiency. The polar cuts in the principal planes show the expected
+single-lobe behaviour for a rectangular patch and low cross-polarisation in the
+main beam.
+
+\begin{figure}[H]
+  \centering
+  \begin{subfigure}[b]{0.49\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{figures/Lab 5/Exercise 2/RadiationPattern.PNG}
+    \caption{Gain/directivity and efficiency.}
+    \label{fig:lab5_ex2_rad_summary}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[b]{0.49\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{figures/Lab 5/Exercise 2/FarFieldCut1.PNG}
+    \caption{Far-field cut (plane 1).}
+    \label{fig:lab5_ex2_cut1}
+  \end{subfigure}
+
+  \vspace{0.6em}
+
+  \includegraphics[width=0.7\textwidth]{figures/Lab 5/Exercise 2/FarFieldCut2.PNG}
+  \caption{Simulated far-field characteristics of the patch antenna at 2.4~GHz.}
+  \label{fig:lab5_ex2_patterns}
+\end{figure}
+
+\FloatBarrier
+\clearpage

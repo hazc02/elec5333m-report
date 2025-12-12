@@ -1,2 +1,109 @@
 % Lab 4 content: Transistor Characteristics
+\section{Transistor Characteristics (Lab 4)}
+\label{sec:lab4}
+
+\subsection*{Exercise 1: DC bias and small-signal parameters}
+
+The BJT is modelled with \(V_{BE}=0.7\)~V and \(\beta=100\). For each bias
+configuration, Kirchhoff’s voltage law gives the base current, from which
+\(I_C=\beta I_B\), \(I_E=I_C+I_B\) and \(V_{CE}\) follow. ADS DC operating-point
+results are summarised in Table~\ref{tab:lab4_ex1_dc}.
+
+\begin{table}[H]
+  \centering
+  \small
+  \begin{tabular}{l c c c c c c}
+    \toprule
+    Circuit & \(I_B\) (A) & \(I_C\) (A) & \(I_E\) (A) & \(V_{BE}\) (V) & \(V_{CE}\) (V) & \(\beta\) \\
+    \midrule
+    (a) & \(7.94\times10^{-5}\) & \(8.0\times10^{-3}\) & \(8.0\times10^{-3}\) & 0.822 & 4.056 & 100 \\
+    (b) & \(2.28\times10^{-5}\) & \(2.0\times10^{-3}\) & \(2.0\times10^{-3}\) & 0.790 & 7.424 & 100 \\
+    \bottomrule
+  \end{tabular}
+  \caption{ADS DC operating-point results for Exercise~1 circuits (a) and (b).}
+  \label{tab:lab4_ex1_dc}
+\end{table}
+
+For circuit (a) the base current is \(I_B\approx7.94\times10^{-5}\)~A, giving
+\(I_C\approx8\)~mA and \(V_{CE}\approx4.06\)~V. Circuit (b) introduces emitter
+degeneration, reducing the bias currents to \(I_B\approx2.28\times10^{-5}\)~A,
+\(I_C\approx2\)~mA and increasing the collector–emitter voltage to
+\(V_{CE}\approx7.42\)~V. The simulated values are consistent with the hand
+calculations and show how emitter resistance improves bias stability at the cost
+of gain.
+
+\subsection*{Exercise 2: Output characteristics}
+
+Using the Agilent HBT model, \(V_{CE}\) was swept from 0 to 5~V while stepping
+\(I_B\) from 20 to 200~\(\mu\)A. The resulting \(I_C\)–\(V_{CE}\) family is shown
+in Fig.~\ref{fig:lab4_ex2_results}.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.5\textwidth]{figures/Lab 4/Exercise 2/SimResults.PNG}
+  \caption{Collector current versus \(V_{CE}\) for stepped base currents.}
+  \label{fig:lab4_ex2_results}
+\end{figure}
+
+Each curve exhibits a low-\(V_{CE}\) saturation region followed by a nearly flat
+active region where \(I_C\) is set by \(I_B\). The slight upward slope in the
+active region indicates finite output resistance (Early effect), so \(I_C\)
+increases modestly with \(V_{CE}\). Higher \(I_B\) shifts the curves upward
+approximately linearly, matching the expected proportionality between \(I_C\)
+and base drive.
+
+\subsection*{Exercise 3: Frequency-dependent gain}
+
+The NPN device was replaced by the HBT model and the small-signal voltage gain
+was evaluated from 1 to 10~GHz. Fig.~\ref{fig:lab4_ex3_results} shows the ADS
+AC results and derived parameters.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=1\textwidth]{figures/Lab 4/Exercise 3/SimResults_graph.PNG}
+  \caption{ADS AC gain magnitude/phase and extracted bias values.}
+  \label{fig:lab4_ex3_results}
+\end{figure}
+
+The key values extracted from ADS are listed in Table~\ref{tab:lab4_ex3_vals}.
+
+\begin{table}[H]
+  \centering
+  \small
+  \begin{tabular}{c c c c}
+    \toprule
+    \(f\) (GHz) & \(|A_v|\) & \(\angle A_v\) (deg) & \\
+    \midrule
+    \multicolumn{4}{l}{\textit{DC operating point}} \\
+    \multicolumn{1}{l}{\(I_B = 3.953\times 10^{-5}\,\text{A}\)} &
+    \multicolumn{1}{l}{\(I_C = 4.0\times 10^{-3}\,\text{A}\)} &
+    \multicolumn{1}{l}{\(V_{CE} = -29.53\,\text{V}\)} &
+    \\
+    \midrule
+    \multicolumn{4}{l}{\textit{AC gain versus frequency}} \\
+    1.0 & 26.924 & 155.852 & \\
+    2.0 & 18.515 & 124.852 & \\
+    3.0 & 13.411 & 110.292 & \\
+    4.0 & 10.405 & 101.365 & \\
+    5.0 & 8.480  & 94.953  & \\
+    6.0 & 7.157  & 89.872  & \\
+    7.0 & 6.198  & 85.584  & \\
+    8.0 & 5.473  & 81.811  & \\
+    9.0 & 4.908  & 78.398  & \\
+    10.0 & 4.457 & 75.250  & \\
+    \bottomrule
+  \end{tabular}
+  \caption{ADS-derived DC bias currents/voltage and small-signal gain for Exercise~3.}
+  \label{tab:lab4_ex3_vals}
+\end{table}
+
+The voltage gain is highest at low frequency (about 27 at 1~GHz) and rolls off
+monotonically to roughly 4–5 by 10~GHz. This behaviour reflects the transistor’s
+finite transition frequency: parasitic capacitances reduce transconductance and
+introduce additional phase shift as frequency increases. The measured DC bias
+currents are in line with those from Exercise~1, so the gain reduction is
+dominated by device high-frequency limits rather than a change in operating
+point.
+
+\FloatBarrier
 
